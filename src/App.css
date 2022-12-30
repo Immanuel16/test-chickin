@@ -1,3 +1,21 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.ant-collapse-header-text {
+  @apply text-lg font-semibold text-white
+}
+
+.ant-collapse-item{
+  @apply bg-blue-400 rounded-md
+}
+
+.ant-collapse>.ant-collapse-item:last-child {
+  @apply rounded-lg
+}
+
+.anticon svg {
+  width: 18px;
+  height: 18px;
+  color: white;
+}

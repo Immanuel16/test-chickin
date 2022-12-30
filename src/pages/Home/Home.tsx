@@ -1,14 +1,16 @@
 import apiHelper from "../../helper/api";
 import { useEffect, useState } from "react";
-import AxiosInterfacePoke from "../../models/AxiosInterface";
-import PokeList from "../../models/PokeInterface";
+import {AxiosInterfacePokeList} from "../../models/AxiosInterface";
+import {PokeList} from "../../models/PokeInterface";
+import { useNavigate } from "react-router";
 function Home() {
+  const navigate = useNavigate();
   const [pokemonList, setPokemonList] = useState<PokeList[]>([]);
   const [nextPageUrl, setNextPageUrl] = useState<string | null>("");
   const [prevPageUrl, setPrevPageUrl] = useState<string | null>("");
   const getDataPokemon = async (params: string | null = "") => {
     try {
-      const { data }: AxiosInterfacePoke = await apiHelper.get(
+      const { data }: AxiosInterfacePokeList = await apiHelper.get(
         `pokemon${params}`
       );
       setPokemonList(data.results);
@@ -30,6 +32,10 @@ function Home() {
     getDataPokemon(params);
   };
 
+  const seeDetailPokemon = (name: string) => {
+    navigate(`/pokemon/${name}/detail`)
+  }
+
   useEffect(() => {
     getDataPokemon();
     return () => {};
@@ -39,11 +45,12 @@ function Home() {
     <div className="flex flex-col items-center min-h-screen space-y-6">
       <h3 className="text-2xl font-semibold">LIST POKEMON</h3>
       {/* area list pokemon */}
-      <div className="w-full space-y-2 grid lg:grid-cols-4 md:grid-cols-2 gap-4">
+      <div className="w-full grid lg:grid-cols-4 md:grid-cols-2 gap-4">
         {pokemonList.map((pokemon, idx) => (
           <div
             className="rounded-md shadow-md bg-white px-6 py-4 space-y-4 items-center cursor-pointer"
             key={idx}
+            onClick={() => seeDetailPokemon(pokemon.name)}
           >
             <div className="flex items-center w-full justify-center">
               <img
